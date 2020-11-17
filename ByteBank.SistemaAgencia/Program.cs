@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ByteBank.Modelos;
-using ByteBank.Modelos.Funcionarios;
+using Humanizer;
+using Humanizer.Localisation;
 
 namespace ByteBank.SistemaAgencia
 {
@@ -12,15 +8,19 @@ namespace ByteBank.SistemaAgencia
     {
         static void Main(string[] args)
         {
-            ContaCorrente conta = new ContaCorrente(847, 489754);
+            DateTime dataFimPagamento = new DateTime(2022, 01, 17);
+            DateTime dataCorrente = DateTime.Now;
 
+            TimeSpan diferenca = dataFimPagamento - dataCorrente;
 
-            FuncionarioAutenticavel carlos = null;
-            carlos.Autenticar("kjhasfkjas");
+            // Humanizer - Biblioteca para trabalhar intervalos de tempos
+            string mensagem = "Vencimento em "+ TimeSpanHumanizeExtensions.Humanize(diferenca,3,null, TimeUnit.Year);
 
-            Console.WriteLine(conta.Numero);
+            Console.WriteLine(mensagem);
 
             Console.ReadLine();
         }
+
+        
     }
 }
