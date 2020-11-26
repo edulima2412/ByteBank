@@ -11,18 +11,13 @@ namespace ByteBank.Modelos
     /// </summary>
     public class ContaCorrente
     {
-        private static int TaxaOperacao;
-
+        private double TaxaOperacao;
         public static int TotalDeContasCriadas { get; private set; }
-
         public Cliente Titular { get; set; }
-
         public int ContadorSaquesNaoPermitidos { get; private set; }
         public int ContadorTransferenciasNaoPermitidas { get; private set; }
-
         public int Numero { get; }
         public int Agencia { get; }
-
         private double _saldo = 100;
         public double Saldo
         {
@@ -110,6 +105,18 @@ namespace ByteBank.Modelos
             }
 
             contaDestino.Depositar(valor);
+        }
+
+        public override bool Equals(object obj)
+        {
+            ContaCorrente outraConta = obj as ContaCorrente;
+
+            if (outraConta == null)
+            {
+                return false;
+            }
+
+            return Numero == outraConta.Numero && Agencia == outraConta.Agencia;
         }
     }
 
