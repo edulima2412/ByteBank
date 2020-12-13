@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ByteBank.SistemaAgencia
 {
-    public class Lista<T>
+    public class ListaDeObject
     {
-        private T[] _itens;
+        private object[] _itens;
         private int _proximaPosicao;
 
         public int Tamanho
@@ -19,9 +19,9 @@ namespace ByteBank.SistemaAgencia
             }
         }
 
-        public Lista(int capacidadeInicial = 5)
+        public ListaDeObject(int capacidadeInicial = 5)
         {
-            _itens = new T[capacidadeInicial];
+            _itens = new object[capacidadeInicial];
             _proximaPosicao = 0;
         }
 
@@ -30,7 +30,7 @@ namespace ByteBank.SistemaAgencia
 
         }
 
-        public void Adicionar(T item)
+        public void Adicionar(object item)
         {
             VerificarCapacidade(_proximaPosicao + 1);
 
@@ -40,21 +40,21 @@ namespace ByteBank.SistemaAgencia
             _proximaPosicao++;
         }
 
-        public void AdicionarVarios(params T[] itens)
+        public void AdicionarVarios(params object[] itens)
         {
-            foreach (T item in itens)
+            foreach (object item in itens)
             {
                 Adicionar(item);
             }
         }
 
-        public void Remover(T item)
+        public void Remover(object item)
         {
             int indiceItem = -1;
 
             for (int i = 0; i < _proximaPosicao; i++)
             {
-                T itemAtual = _itens[i];
+                object itemAtual = _itens[i];
 
                 if (itemAtual.Equals(item))
                 {
@@ -75,10 +75,10 @@ namespace ByteBank.SistemaAgencia
             }
 
             _proximaPosicao--;
-            //_itens[_proximaPosicao] = null;
+            _itens[_proximaPosicao] = null;
         }
 
-        public T GetItemNoIndice(int indice)
+        public object GetItemNoIndice(int indice)
         {
             if (indice < 0 || indice >= _proximaPosicao)
             {
@@ -103,7 +103,7 @@ namespace ByteBank.SistemaAgencia
 
             // Console.WriteLine("Aumentando capacidade da lista!");
 
-            T[] novoArray = new T[novoTamanho];
+            object[] novoArray = new object[novoTamanho];
 
             for (int indice = 0; indice < _itens.Length; indice++)
             {
@@ -114,7 +114,7 @@ namespace ByteBank.SistemaAgencia
             _itens = novoArray;
         }
 
-        public T this[int indice]
+        public object this[int indice]
         {
             get
             {

@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ByteBank.Modelos;
-using Humanizer;
-using Humanizer.Localisation;
+using ByteBank.Modelos.Funcionarios;
+using ByteBank.SistemaAgencia.Comparadores;
+using ByteBank.SistemaAgencia.Extensoes;
 
 namespace ByteBank.SistemaAgencia
 {
@@ -9,29 +14,133 @@ namespace ByteBank.SistemaAgencia
     {
         static void Main(string[] args)
         {
-            // Lista Generica
-            Lista<int> idades = new Lista<int>();
+            var contas = new List<ContaCorrente>()
+            {
+                new ContaCorrente(341, 1),
+                new ContaCorrente(342, 999),
+                null,
+                new ContaCorrente(340, 4),
+                new ContaCorrente(340, 456),
+                new ContaCorrente(340, 10),
+                null,
+                null,
+                new ContaCorrente(290, 123)
+            };
 
-            idades.AdicionarVarios(1, 3, 5);
+            // contas.Sort(); ~~> Chamar a implementação dada em IComparable
+
+            // contas.Sort(new ComparadorContaCorrentePorAgencia());
+            
+            var contasOrdenadas = contas
+                .Where(conta => conta != null)
+                .OrderBy(conta => conta.Numero);
+
+            foreach (var conta in contasOrdenadas)
+            {
+                Console.WriteLine($"Conta número {conta.Numero}, ag. {conta.Agencia}");
+            }
+
 
             Console.ReadLine();
         }
 
-        static void TesteListaContaCorrente()
+        static void TestaSort()
         {
+            var nomes = new List<string>()
+            {
+                "Wellington",
+                "Guilherme",
+                "Luana",
+                "Ana"
+            };
+
+            nomes.Sort();
+
+            foreach (var nome in nomes)
+            {
+                Console.WriteLine(nome);
+            }
+
+
+
+
+            var idades = new List<int>();
+
+            idades.Add(1);
+            idades.Add(5);
+            idades.Add(14);
+            idades.Add(25);
+            idades.Add(38);
+            idades.Add(61);
+
+            idades.AdicionarVarios(45, 89, 12);
+            // ListExtensoes.AdicionarVarios(idades, 45, 89, 12);
+
+            idades.AdicionarVarios(99, -1);
+
+
+            idades.Sort();
+
+            for (int i = 0; i < idades.Count; i++)
+            {
+                Console.WriteLine(idades[i]);
+            }
+        }
+
+        static void TestaListaDeObject()
+        {
+            ListaDeObject listaDeIdades = new ListaDeObject();
+
+            listaDeIdades.Adicionar(10);
+            listaDeIdades.Adicionar(5);
+            listaDeIdades.Adicionar(4);
+            listaDeIdades.Adicionar("um texto qualquer");
+            listaDeIdades.AdicionarVarios(16, 23, 60);
+
+            for (int i = 0; i < listaDeIdades.Tamanho; i++)
+            {
+                int idade = (int)listaDeIdades[i];
+                Console.WriteLine($"Idade no indice {i}: {idade}");
+            }
+        }
+
+        static int SomarVarios(params int[] numeros)
+        {
+            int acumulador = 0;
+            foreach(int numero in numeros)
+            {
+                acumulador += numero;
+            }
+            return acumulador;
+        }
+
+
+        static void TestaListaDeContaCorrente()
+        {
+            //ListaDeContaCorrente lista = new ListaDeContaCorrente();
             ListaDeContaCorrente lista = new ListaDeContaCorrente();
 
-            lista.Adicionar(new ContaCorrente(111, 11111));
-            lista.Adicionar(new ContaCorrente(222, 22222));
-            lista.Adicionar(new ContaCorrente(333, 33333));
-            lista.Adicionar(new ContaCorrente(444, 44444));
-            lista.Adicionar(new ContaCorrente(555, 55555));
+            ContaCorrente contaDoGui = new ContaCorrente(11111, 1111111);
+
+            ContaCorrente[] contas = new ContaCorrente[]
+            {
+                contaDoGui,
+                new ContaCorrente(874, 5679787),
+                new ContaCorrente(874, 5679754)
+            };
+
+            lista.AdicionarVarios(contas);
 
             lista.AdicionarVarios(
-                new ContaCorrente(100, 40010),
-                new ContaCorrente(101, 40011),
-                new ContaCorrente(102, 40012),
-                new ContaCorrente(103, 40013)
+                contaDoGui,
+                new ContaCorrente(874, 5679787),
+                new ContaCorrente(874, 5679787),
+                new ContaCorrente(874, 5679787),
+                new ContaCorrente(874, 5679787),
+                new ContaCorrente(874, 5679787),
+                new ContaCorrente(874, 5679787),
+                new ContaCorrente(874, 5679787),
+                new ContaCorrente(874, 5679787)
             );
 
             for (int i = 0; i < lista.Tamanho; i++)
@@ -41,32 +150,53 @@ namespace ByteBank.SistemaAgencia
             }
         }
 
-        static void Extractor()
+
+
+        static void TestaArrayDeContaCorrente()
         {
-            string url = "http://www.bytebank.com.br/cambio?moedaOrigem=real&moedaDestino=dolar&valor=1500";
+            ContaCorrente[] contas = new ContaCorrente[]
+                {
+                    new ContaCorrente(874, 5679787),
+                    new ContaCorrente(874, 4456668),
+                    new ContaCorrente(874, 7781438)
+                };
 
-            ExtratorValorDeArgumentosURL extrator = new ExtratorValorDeArgumentosURL(url);
-
-            string valorOrigem = extrator.GetValor("moedaOrigem");
-            string valorDestino = extrator.GetValor("moedaDestino");
-            string valor = extrator.GetValor("valor");
-
-            Console.WriteLine("Moeda Origem: " + valorOrigem);
-            Console.WriteLine("Moeda Destino: " + valorDestino);
-            Console.WriteLine("Valor: " + valor);
+            for (int indice = 0; indice < contas.Length; indice++)
+            {
+                ContaCorrente contaAtual = contas[indice];
+                Console.WriteLine($"Conta {indice} {contaAtual.Numero}");
+            }
         }
 
-        static void GetInterval()
+        static void TestaArrayInt()
         {
-            DateTime dataFimPagamento = new DateTime(2022, 01, 17);
-            DateTime dataCorrente = DateTime.Now;
+            // ARRAY de inteiros, com 5 posições!
+            int[] idades = null;
+            idades = new int[3];
 
-            TimeSpan diferenca = dataFimPagamento - dataCorrente;
+            idades[0] = 15;
+            idades[1] = 28;
+            idades[2] = 35;
+            //idades[3] = 50;
+            //idades[4] = 28;
+            //idades[5] = 60;
 
-            // Humanizer - Biblioteca para trabalhar intervalos de tempos
-            string mensagem = "Vencimento em " + TimeSpanHumanizeExtensions.Humanize(diferenca, 3, null, TimeUnit.Year);
+            Console.WriteLine(idades.Length);
 
-            Console.WriteLine(mensagem);
+            int acumulador = 0;
+            for (int indice = 0; indice < idades.Length; indice++)
+            {
+                int idade = idades[indice];
+
+                Console.WriteLine($"Acessando o array idades no índice {indice}");
+                Console.WriteLine($"Valor de idades[{indice}] = {idade}");
+
+                acumulador += idade;
+            }
+
+            int media = acumulador / idades.Length;
+            Console.WriteLine($"Média de idades = {media}");
         }
+
     }
 }
