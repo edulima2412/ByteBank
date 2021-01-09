@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="3-CriandoArquivo.cs" />
     <Compile Include="1-LidandoComFileStreamDiretamente.cs" />
+    <Compile Include="4-StreamBinario.cs" />
+    <Compile Include="5-StreamDeEntrada.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2-UsandoStreamReader.cs" />
