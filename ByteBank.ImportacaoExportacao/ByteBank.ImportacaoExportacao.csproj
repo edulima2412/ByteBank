@@ -43,9 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LidandoComFileStreamDiretamente.cs" />
+    <Compile Include="3-CriandoArquivo.cs" />
+    <Compile Include="1-LidandoComFileStreamDiretamente.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="2-UsandoStreamReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
